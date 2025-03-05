@@ -98,18 +98,54 @@ inputTags.addEventListener('keypress', async (evento) => {
 
 const botaoPublicar = document.querySelector('.botao-publicar');
 
+function publicarProjeto (nome, descricao, imagem, tags) {
+
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+      resolve({nome, descricao, imagem, tags});
+    }, 1000);
+
+  })
+
+}
+
 botaoPublicar.addEventListener('click', async (evento) => {
 
   evento.preventDefault();
 
-  const nome = document.getElementById('nome').value();
-  const descricao = document.getElementById('descricao').value();
+  const nome = document.getElementById('nome').textContent;
+  const descricao = document.getElementById('descricao').textContent;
   const imagem = imagemPrincipal.src;
   const tags = Array.from(listaTags.children).map(tag => tag.querySelector('p').textContent);
 
+  try {
+    const projetoPublicado = await publicarProjeto(nome, descricao, imagem, tags);
+    console.log(projetoPublicado);
+    alert('Projeto publicado com sucesso!');
+  }
+  catch (erro) {
+    console.log(erro);
+    alert('Erro ao publicar projeto');
+  }
+
 });
 
+const botaoDescartar = document.querySelector('.botao-descartar');
 
+botaoDescartar.addEventListener('click', (evento) => {
+
+  evento.preventDefault();
+
+  const formulario = document.querySelector('form');
+  formulario.reset();
+
+  imagemPrincipal.src = './img/imagem1.png';
+  nomeDaImagem.textContent = 'image-projeto1.png';
+
+  listaTags.innerHTML = '';
+
+});
 
 
 
